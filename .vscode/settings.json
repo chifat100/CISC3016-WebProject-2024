@@ -3,6 +3,8 @@
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "c:\\Users\\calvi\\Downloads\\jsoup-1.17.2.jar"
+        "c:\\Users\\calvi\\Downloads\\jsoup-1.17.2.jar",
+        "c:\\Users\\calvi\\Desktop\\jstl-1.2.jar",
+        "c:\\Users\\calvi\\Desktop\\javax.servlet-api-3.1-final-javadoc.jar"
     ]
 }
