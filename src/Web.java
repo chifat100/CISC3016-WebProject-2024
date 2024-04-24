@@ -2,84 +2,69 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Web {
-    public String getLiveInformation(String url) {
-        try {
-            Document doc = Jsoup.connect(url).get();
-            // Extract the important information from the web page
-            // For example, using CSS selectors or XPath
 
-            // Example: Extracting news headlines
-            Elements headlineElements = doc.select("h3");
-            List<String> headlines = new ArrayList<>();
-            for (Element element : headlineElements) {
-                headlines.add(element.text());
+    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3";
+
+    public void createDynamicWebPage() {
+        try {
+            Document doc1 = Jsoup.connect("http://example.com/news").userAgent(USER_AGENT).get();
+            Document doc2 = Jsoup.connect("http://example.org/events").userAgent(USER_AGENT).get();
+            Document doc3 = Jsoup.connect("http://example.net/updates").userAgent(USER_AGENT).get();
+
+            Elements newsHeadlines = doc1.select("h1.headline");
+            Elements eventDetails = doc2.select("div.events");
+            Elements updates = doc3.select("section.updates");
+
+            String htmlContent = "<html><head><title>Aggregated Content</title></head><body>";
+            htmlContent += "<h1>News Headlines</h1>";
+            for (Element headline : newsHeadlines) {
+                htmlContent += "<p>" + headline.text() + "</p>";
             }
 
-            // Randomly select a headline
-            Random random = new Random();
-            String randomHeadline = headlines.get(random.nextInt(headlines.size()));
+            htmlContent += "<h1>Upcoming Events</h1>";
+            for (Element event : eventDetails) {
+                htmlContent += "<div>" + event.html() + "</div>";
+            }
 
-            // Generate random comments based on the headline
-            String randomComment = generateRandomComment(randomHeadline);
+            htmlContent += "<h1>Latest Updates</h1>";
+            for (Element update : updates) {
+                htmlContent += "<section>" + update.html() + "</section>";
+            }
 
-            // Generate the information string
-            String information = "Headline: " + randomHeadline + "\nComment: " + randomComment;
+            htmlContent += "<audio controls><source src='sound.mp3' type='audio/mpeg'>Your browser does not support the audio element.</audio>";
+            htmlContent += "<script>function enlargeImage(img) { img.style.transform = 'scale(1.5)'; img.style.transition = 'transform 0.25s ease'; } document.querySelectorAll('img').forEach(img => img.addEventListener('click', () => enlargeImage(img)));</script>";
+            htmlContent += "</body></html>";
 
-            return information;
+            BufferedWriter writer = new BufferedWriter(new FileWriter("src/aggregatedContent.html"));
+            writer.write(htmlContent);
+            writer.close();
+
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
 
-    public String generateWebPage(String information) {
-        String htmlContent = "<html>\n" +
-                "<head>\n" +
-                "<title>My Web Page</title>\n" +
-                "</head>\n" +
-                "<body>\n" +
-                "<h1>Live Information</h1>\n" +
-                "<p>" + information + "</p>\n" +
-                "<img src='image.jpg' alt='Image'>\n" +
-                "<a href='sound.wav'>Click here to play sound</a>\n" +
-                "<script>\n" +
-                "var audio = new Audio('sound.wav');\n" +
-                "var link = document.querySelector('a');\n" +
-                "link.addEventListener('click', function() {\n" +
-                "  audio.play();\n" +
-                "});\n" +
-                "</script>\n" +
-                "</body>\n" +
-                "</html>";
-
-        return htmlContent;
-    }
-
-    private String generateRandomComment(String headline) {
-        String[] comments = {
-                "Interesting news! " + headline,
-                "I can't believe what I just read about " + headline,
-                "This is a major development in the news!",
-                "Wow, this headline caught my attention: " + headline
-        };
-
-        Random random = new Random();
-        int randomIndex = random.nextInt(comments.length);
-        return comments[randomIndex];
+    public boolean checkSpelling(String word) {
+        try {
+            Document doc = Jsoup.connect("https://www.dictionary.com/browse/" + word).userAgent(USER_AGENT).get();
+            return doc.select("h1.head-entry").text().equalsIgnoreCase(word);
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     public static void main(String[] args) {
         Web web = new Web();
-        String liveInformation = web.getLiveInformation("https://news.google.com/home?hl=en-US&gl=US&ceid=US:en");
-        String webPage = web.generateWebPage(liveInformation);
-
-        System.out.println(webPage);
+        web.createDynamicWebPage();
+        System.out.println("Web page generated successfully.");
     }
 }
