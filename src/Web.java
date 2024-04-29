@@ -1,22 +1,38 @@
-<<<<<<< Updated upstream
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
+import org.jsoup.select.Evaluator;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-=======
->>>>>>> Stashed changes
 import java.io.IOException;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import java.util.Objects;
 
 public class Web {
 
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3";
+
+    private static final String Site1 = "https://www.gov.mo/zh-hant/news/?display_mode=grid";
+
+    private void fetch() throws IOException {
+        Document doc1 = Jsoup.connect(Site1).userAgent(USER_AGENT).get();
+        Elements elements = doc1.getElementsByClass("news--item-body");
+        for (Element e : elements) {
+            Element date = e.getElementsByClass("news--item-date").first();
+            Element title = e.getElementsByClass("news--item-title").first();
+            Element desc = e.getElementsByClass("news--item-desc").first();
+            if (Objects.isNull(title) || Objects.isNull(desc))
+                continue;
+            if (Objects.isNull(date))
+                System.out.printf("%s %s%n", title.html(), desc.html());
+            else
+                System.out.printf("%s %s %s%n", date.html(), title.html(), desc.html());
+        }
+    }
+
 
     public void createCombinedWebPage() {
         String htmlContent = "<html><head><title>Aggregated Content and Spell Check</title></head><body>";
@@ -68,9 +84,10 @@ public class Web {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Web web = new Web();
-        web.createCombinedWebPage();
-        System.out.println("Web page generated successfully.");
+        web.fetch();
+//        web.createCombinedWebPage();
+//        System.out.println("Web page generated successfully.");
     }
 }
