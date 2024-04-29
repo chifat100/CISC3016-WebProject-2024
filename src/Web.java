@@ -16,6 +16,8 @@ public class Web {
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3";
 
     private static final String Site1 = "https://www.gov.mo/zh-hant/news/?display_mode=grid";
+    private static final String Site2 = "https://news.cctv.com/china/";
+    private static final String Site3 = "https://www.modaily.cn/amucsite/web/index.html#/home";
 
     private void fetch() throws IOException {
         Document doc1 = Jsoup.connect(Site1).userAgent(USER_AGENT).get();
@@ -31,6 +33,8 @@ public class Web {
             else
                 System.out.printf("%s %s %s%n", date.html(), title.html(), desc.html());
         }
+
+        
     }
 
 
