@@ -8,11 +8,12 @@ public class IndexData {
     public List<String> govDescs = new ArrayList<>();
     public List<String> govDates = new ArrayList<>();
 
-    public List<String> cctvTitles = new ArrayList<>();
-    public List<String> cctvDescs = new ArrayList<>();
+    public List<String> umTitles = new ArrayList<>();
+    public List<String> umDates = new ArrayList<>();
 
-    public List<String> modailyTitles = new ArrayList<>();
-    public List<String> mengDescs = new ArrayList<>();
+    public List<String> moDailyTitles = new ArrayList<>();
+
+    public String comment;
 
     public String word;
     public boolean doesWordExists;

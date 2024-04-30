@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
+// Unfinished, ended up using JSoup instead
 public class HTMLElement {
     private String html;
 

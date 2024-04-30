@@ -101,7 +101,6 @@ public class Router {
     }
 
     public void registerController(Class<? extends Controller> controller) throws RouteParsingException {
-        System.out.println(this.getClass().getPackageName());
         for (Method method : controller.getMethods()) {
             register(controller, method);
         }

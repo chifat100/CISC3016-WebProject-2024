@@ -33,6 +33,9 @@ public class HTTPApplication {
 //        dependencyInjector.addSingleton(config);
         router.build();
 
+        System.out.println("My Http Server in Java");
+        System.out.printf("Listening on %d port...", WebConfig.port);
+
         try (ServerSocket serverSocket = new ServerSocket(WebConfig.port)) {
             while (true) {
                 Socket client = serverSocket.accept();

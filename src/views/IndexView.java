@@ -1,10 +1,5 @@
 package views;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
-
 import httpserver.BaseView;
 import httpserver.StructureBuilder;
 import httpserver.StyleBuilder;
@@ -21,23 +16,6 @@ public class IndexView extends BaseView<IndexData> {
         return "CISC3016 WebProject";
     }
 
-    private Random random = new Random();
-
-    private List<String> comments = Arrays.asList(
-            "Interesting content!",
-            "This is relevant to my interests.",
-            "I've learned something new today.",
-            "Great read, would recommend.",
-            "This content is top-notch."
-    );
-
-    private String generateComment() {
-        // Pick a random comment from the list
-        int index = random.nextInt(comments.size());
-        return comments.get(index);
-    }
-
-
     @Override
     protected void buildStructure(StructureBuilder builder) {
         builder.header(() -> {
@@ -46,6 +24,11 @@ public class IndexView extends BaseView<IndexData> {
             });
         });
         builder.main(() -> {
+            builder.h1("display", () -> builder.text("Too Many News!"));
+
+            if (Objects.nonNull(data.word)) {
+                builder.h1(() -> builder.text("Clear the dictionary input field to show the news again!"));
+            }
             builder.h1(() -> builder.text("Macau Government News"));
             builder.div("news", () -> {
                 for (int i = 0; i < data.govTitles.size(); i++) {
@@ -57,18 +40,18 @@ public class IndexView extends BaseView<IndexData> {
                     });
                 }
             });
-//
-//            builder.h1(() -> builder.text("China CCTV News"));
-//            builder.div("news", () -> {
-//                for (int i = 0; i < data.cctvTitles.size(); i++) {
-//                    final int idx = i;
-//                    builder.div("card", () -> {
-//                        builder.h2(() -> builder.text(data.cctvTitles.get(idx)));
-//                        builder.p(() -> builder.text(data.cctvDescs.get(idx)));
-//                    });
-//                }
-//            });
-//
+
+            builder.h1(() -> builder.text("Umac News"));
+            builder.div("news", () -> {
+                for (int i = 0; i < data.umTitles.size(); i++) {
+                    final int idx = i;
+                    builder.div("card", () -> {
+                        builder.h4(() -> builder.text(data.umDates.get(idx)));
+                        builder.h2(() -> builder.text(data.umTitles.get(idx)));
+                    });
+                }
+            });
+
             builder.h1(() -> builder.text("Macau Daily News"));
             builder.div("news", () -> {
                 for (int i = 0; i < data.govTitles.size(); i++) {
@@ -90,15 +73,24 @@ public class IndexView extends BaseView<IndexData> {
                 builder.img(attr().src("public/image.jpeg"), () -> {
                 });
                 builder.script(() -> {
-                    builder.text("function enlargeImage(img) { img.style.transform = 'scale(1.3)'; img.style.transition = 'transform 0.25s ease'; } document.querySelectorAll('img').forEach(img => img.addEventListener('click', () => enlargeImage(img)));");
+                    builder.text("""
+                            function enlargeImage(img) {
+                                //const val = img.getComputedStyle(el, null).getPropertyValue(transform);
+                                if (img.style.transform != 'scale(1.3)') {
+                                    img.style.transform = 'scale(1.3)';
+                                    img.style.transition = 'transform 0.25s ease';
+                                } else {
+                                    img.style.transform = 'scale(1)';
+                                }
+                            }
+                            document.querySelectorAll('img').forEach(img => img.addEventListener('click', () => enlargeImage(img)));
+                            """);
                 });
             });
 
-            builder.div( () -> builder.text("<audio controls><source src='sound.mp3' type='audio/mpeg'>Your browser does not support the audio element.</audio>"));
-            builder.div( () -> builder.text("<img src='image.jpeg' alt=' '> <script>function enlargeImage(img) { img.style.transform = 'scale(1.5)'; img.style.transition = 'transform 0.25s ease'; } document.querySelectorAll('img').forEach(img => img.addEventListener('click', () => enlargeImage(img)));</script>"));
-            builder.h2( () -> builder.text("Comment Below"));
-            String comment = generateComment();
-            builder.div( () -> builder.text(comment));
+            builder.h1(() -> builder.text("Comment Below"));
+            builder.div(() -> builder.text(data.comment));
+
             builder.h1(() -> builder.text("Dictionary"));
             builder.div("dict", () -> {
                 builder.form(attr().method("get").action("/"), () -> {
@@ -123,7 +115,7 @@ public class IndexView extends BaseView<IndexData> {
         builder.div("space", () -> {
         });
         builder.footer(() -> {
-            builder.text("This is is by Leong Chi Tou and Chi Fat");
+            builder.text("This site is made by Leong Chi Tou and Chi Fat");
         });
     }
 
@@ -186,6 +178,10 @@ public class IndexView extends BaseView<IndexData> {
         builder.select("main", attr -> {
             attr.max_width("1200px");
             attr.margin("0 auto");
+        });
+        builder.select(".display", attr -> {
+            attr.font_size("3rem");
+            attr.text_align("center");
         });
         builder.select(".news", attr -> {
             attr.display("grid");
