@@ -1,5 +1,10 @@
 package views;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+
 import httpserver.BaseView;
 import httpserver.StructureBuilder;
 import httpserver.StyleBuilder;
@@ -15,6 +20,23 @@ public class IndexView extends BaseView<IndexData> {
     protected String getTitle() {
         return "CISC3016 WebProject";
     }
+
+    private Random random = new Random();
+
+    private List<String> comments = Arrays.asList(
+            "Interesting content!",
+            "This is relevant to my interests.",
+            "I've learned something new today.",
+            "Great read, would recommend.",
+            "This content is top-notch."
+    );
+
+    private String generateComment() {
+        // Pick a random comment from the list
+        int index = random.nextInt(comments.size());
+        return comments.get(index);
+    }
+
 
     @Override
     protected void buildStructure(StructureBuilder builder) {
@@ -72,6 +94,11 @@ public class IndexView extends BaseView<IndexData> {
                 });
             });
 
+            builder.div( () -> builder.text("<audio controls><source src='sound.mp3' type='audio/mpeg'>Your browser does not support the audio element.</audio>"));
+            builder.div( () -> builder.text("<img src='image.jpeg' alt=' '> <script>function enlargeImage(img) { img.style.transform = 'scale(1.5)'; img.style.transition = 'transform 0.25s ease'; } document.querySelectorAll('img').forEach(img => img.addEventListener('click', () => enlargeImage(img)));</script>"));
+            builder.h2( () -> builder.text("Comment Below"));
+            String comment = generateComment();
+            builder.div( () -> builder.text(comment));
             builder.h1(() -> builder.text("Dictionary"));
             builder.div("dict", () -> {
                 builder.form(attr().method("get").action("/"), () -> {
