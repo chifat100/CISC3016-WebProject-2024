@@ -1,10 +1,10 @@
 package views;
 
-import java.util.Objects;
-
 import httpserver.BaseView;
 import httpserver.StructureBuilder;
 import httpserver.StyleBuilder;
+
+import java.util.Objects;
 
 public class IndexView extends BaseView<IndexData> {
     public IndexView(IndexData data) {
@@ -35,11 +35,43 @@ public class IndexView extends BaseView<IndexData> {
                     });
                 }
             });
+//
+//            builder.h1(() -> builder.text("China CCTV News"));
+//            builder.div("news", () -> {
+//                for (int i = 0; i < data.cctvTitles.size(); i++) {
+//                    final int idx = i;
+//                    builder.div("card", () -> {
+//                        builder.h2(() -> builder.text(data.cctvTitles.get(idx)));
+//                        builder.p(() -> builder.text(data.cctvDescs.get(idx)));
+//                    });
+//                }
+//            });
+//
+            builder.h1(() -> builder.text("Macau Daily News"));
+            builder.div("news", () -> {
+                for (int i = 0; i < data.govTitles.size(); i++) {
+                    final int idx = i;
+                    builder.div("card", () -> {
+                        builder.h2(() -> builder.text(data.govTitles.get(idx)));
+//                        builder.p(() -> builder.text(data.govDescs.get(idx)));
+                    });
+                }
+            });
 
             builder.h1(() -> builder.text("Image and Sound"));
-            builder.div( () -> builder.text("<audio controls><source src='sound.mp3' type='audio/mpeg'>Your browser does not support the audio element.</audio>"));
-            builder.div( () -> builder.text("<img src='image.jpeg' alt=' '> <script>function enlargeImage(img) { img.style.transform = 'scale(1.5)'; img.style.transition = 'transform 0.25s ease'; } document.querySelectorAll('img').forEach(img => img.addEventListener('click', () => enlargeImage(img)));</script>"));
-            
+            builder.div("center", () -> {
+                builder.audio(attr().controls(""), () -> {
+                    builder.source(attr().src("public/sound.wav").type("audio/mpeg"), () -> {
+                    });
+                    builder.text("Your browser does not support the audio element.");
+                });
+                builder.img(attr().src("public/image.jpeg"), () -> {
+                });
+                builder.script(() -> {
+                    builder.text("function enlargeImage(img) { img.style.transform = 'scale(1.3)'; img.style.transition = 'transform 0.25s ease'; } document.querySelectorAll('img').forEach(img => img.addEventListener('click', () => enlargeImage(img)));");
+                });
+            });
+
             builder.h1(() -> builder.text("Dictionary"));
             builder.div("dict", () -> {
                 builder.form(attr().method("get").action("/"), () -> {
@@ -64,7 +96,7 @@ public class IndexView extends BaseView<IndexData> {
         builder.div("space", () -> {
         });
         builder.footer(() -> {
-            builder.text("This is is by Leong Chi Tou and F");
+            builder.text("This is is by Leong Chi Tou and Chi Fat");
         });
     }
 
@@ -144,6 +176,11 @@ public class IndexView extends BaseView<IndexData> {
             attr.display("flex");
             attr.flex_direction("column");
             attr.align_items("center");
+        });
+        builder.select(".center", attr -> {
+            attr.display("flex");
+            attr.flex_direction("column");
+            attr.justify_items("center");
         });
         builder.select(".space", attr -> {
             attr.min_height("5rem");

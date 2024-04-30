@@ -35,6 +35,7 @@ public class Web {
 //        Web web = new Web();
 //        web.fetch();
         WebConfig.port = 5100;
+        WebConfig.publicServePath = "/public";
         HTTPApplication app = new HTTPApplication();
         app.router().registerController(IndexController.class);
         app.run();
