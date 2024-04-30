@@ -66,10 +66,9 @@ public class Web {
         htmlContent += "</form>";
 
         
-        BufferedWriter writer = new BufferedWriter(new FileWriter("src/aggregatedContent.html"));
-        writer.write(htmlContent);
-        writer.close();
-
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/aggregatedContent.html"))) {
+            writer.write(htmlContent);
+        }
         
     }
 
