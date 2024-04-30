@@ -1,6 +1,6 @@
 ## Introduction
 
-(https://github.com/chifat100/CISC3016-WebProject-2024/): github link
+https://github.com/chifat100/CISC3016-WebProject-2024/: github link
 
 This is a homework for a university multimedia course.
 
@@ -11,10 +11,10 @@ the Jsoup library instead.
 
 Our website will scrap the information from these four sites,
 if our site seems to be broken, these sites could be updated or became unavailable.
-- (https://www.gov.mo/zh-hant/news/?display_mode=grid): for govornment news.
-- (https://www.um.edu.mo/category/news-and-press-releases/): for um news.
-- (https://www.modaily.cn/amucsite/web/index.html#/home): for mo daily news.
-- (https://dictionary.cambridge.org/us/dictionary/english/): for the dictionary look up function.
+- https://www.gov.mo/zh-hant/news/?display_mode=grid: for govornment news.
+- https://www.um.edu.mo/category/news-and-press-releases/: for um news.
+- https://www.modaily.cn/amucsite/web/index.html#/home: for mo daily news.
+- https://dictionary.cambridge.org/us/dictionary/english/: for the dictionary look up function.
 
 The website loading time is slow due to we fetch the contents of the above sites synchronously.
 When you have entered a word in the dictionary look up input field, our site will not fetch the
