@@ -43,7 +43,7 @@ public class Router {
 
     private Object[] matchPath(Route route, String[] pathSegments, String[] querySegments) {
         // Because it starts with "/", the first element of pathSegments will be empty
-        if (pathSegments.length - 1 != route.path().length)
+        if ((pathSegments.length > 0 ? pathSegments.length - 1 : 0) != route.path().length)
             return null;
         Object[] args = new Object[route.parameters().length];
         for (int i = 1; i < pathSegments.length; i++) {
@@ -145,7 +145,8 @@ public class Router {
         }
 
         String[] segments = pattern.split("/");
-        ParamSegment[] path = new ParamSegment[segments.length - 1];
+        // If pattern starts with "/", there will be an empty string at the start of segments
+        ParamSegment[] path = new ParamSegment[segments.length > 0 ? segments.length - 1 : 0];
         for (int i = 1; i < segments.length; i++) {
             if (segments[i].isEmpty())
                 throw new RouteParsingException("Empty segment found in path: " + pattern);
