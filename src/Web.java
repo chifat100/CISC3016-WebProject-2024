@@ -1,7 +1,10 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List; // Added import for List
 import java.util.Objects;
+import java.util.Random;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,10 +19,22 @@ public class Web {
     private static final String Site2 = "https://news.cctv.com/china/";
     private static final String Site3 = "https://www.modaily.cn/amucsite/web/index.html#/home";
 
+    private List<String> comments = Arrays.asList("Interesting content!",
+    "This is relevant to my interests.",
+    "I've learned something new today.",
+    "Great read, would recommend.",
+    "This content is top-notch.");
+
+    private Random random = new Random();
+    
     private void fetch() throws IOException {
         Document doc1 = Jsoup.connect(Site1).userAgent(USER_AGENT).get();
         Elements elements = doc1.getElementsByClass("news--item-body");
+
+        String comment = generateComments();
+
         String htmlContent = "<html><head><title>Aggregated Content and Spell Check</title></head><body>";
+        
         
         for (Element e : elements) {
             Element date = e.getElementsByClass("news--item-date").first();
@@ -39,7 +54,9 @@ public class Web {
         htmlContent += "<audio controls><source src='sound.wav' type='audio/mpeg'>Your browser does not support the audio element.</audio>";
         htmlContent += "<img src='image.jpeg' alt=' '>";
         htmlContent += "<script>function enlargeImage(img) { img.style.transform = 'scale(1.5)'; img.style.transition = 'transform 0.25s ease'; } document.querySelectorAll('img').forEach(img => img.addEventListener('click', () => enlargeImage(img)));</script>";
+        htmlContent += "<p>" + comment + "</p>";
         htmlContent += "</body></html>";
+
 
         htmlContent += "<h2>Spell Check</h2>";
         htmlContent += "<form action='/SpellCheckApp/checkSpelling' method='get'>";
@@ -54,6 +71,11 @@ public class Web {
         writer.close();
 
         
+    }
+
+    private String generateComments() {
+        int index = random.nextInt(comments.size());
+        return comments.get(index);
     }
 
 
