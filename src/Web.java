@@ -36,6 +36,19 @@ public class Web {
                 //System.out.printf("%s %s %s%n", date.html(), title.html(), desc.html());
         }
 
+        htmlContent += "<audio controls><source src='sound.wav' type='audio/mpeg'>Your browser does not support the audio element.</audio>";
+        htmlContent += "<img src='image.jpeg' alt=' '>";
+        htmlContent += "<script>function enlargeImage(img) { img.style.transform = 'scale(1.5)'; img.style.transition = 'transform 0.25s ease'; } document.querySelectorAll('img').forEach(img => img.addEventListener('click', () => enlargeImage(img)));</script>";
+        htmlContent += "</body></html>";
+
+        htmlContent += "<h2>Spell Check</h2>";
+        htmlContent += "<form action='/SpellCheckApp/checkSpelling' method='get'>";
+        htmlContent += "<label for='word'>Enter a word to check its spelling:</label>";
+        htmlContent += "<input type='text' id='word' name='word'><br>";
+        htmlContent += "<input type='submit' value='Check Spelling'>";
+        htmlContent += "</form>";
+
+        
         BufferedWriter writer = new BufferedWriter(new FileWriter("src/aggregatedContent.html"));
         writer.write(htmlContent);
         writer.close();
