@@ -1,10 +1,10 @@
 package views;
 
+import java.util.Objects;
+
 import httpserver.BaseView;
 import httpserver.StructureBuilder;
 import httpserver.StyleBuilder;
-
-import java.util.Objects;
 
 public class IndexView extends BaseView<IndexData> {
     public IndexView(IndexData data) {
@@ -36,6 +36,10 @@ public class IndexView extends BaseView<IndexData> {
                 }
             });
 
+            builder.h1(() -> builder.text("Image and Sound"));
+            builder.div( () -> builder.text("<audio controls><source src='sound.mp3' type='audio/mpeg'>Your browser does not support the audio element.</audio>"));
+            builder.div( () -> builder.text("<img src='image.jpeg' alt=' '> <script>function enlargeImage(img) { img.style.transform = 'scale(1.5)'; img.style.transition = 'transform 0.25s ease'; } document.querySelectorAll('img').forEach(img => img.addEventListener('click', () => enlargeImage(img)));</script>"));
+            
             builder.h1(() -> builder.text("Dictionary"));
             builder.div("dict", () -> {
                 builder.form(attr().method("get").action("/"), () -> {
