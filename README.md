@@ -51,6 +51,6 @@ with them, then clicking the run button should be able to run the project.
 > You must keep the current directory as the root directory of the project,
 or else static contents might not be displayed.
 
-> Our server runs on 5100 port, please ensure that port is free, or you can
+> Our server runs on 5100 port, please ensure that the port is free, or you can
 change the port in Web.java file
 
