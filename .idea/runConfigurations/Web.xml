@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Web" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="Web" />
-    <module name="CISC2016-WebProject-2024" />
+    <module name="CISC3016-WebProject-2024" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
