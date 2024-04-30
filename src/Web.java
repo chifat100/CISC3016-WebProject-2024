@@ -1,15 +1,12 @@
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Attributes;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.parser.Tag;
-import org.jsoup.select.Elements;
-import org.jsoup.select.Evaluator;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Objects;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class Web {
 
@@ -22,17 +19,26 @@ public class Web {
     private void fetch() throws IOException {
         Document doc1 = Jsoup.connect(Site1).userAgent(USER_AGENT).get();
         Elements elements = doc1.getElementsByClass("news--item-body");
+        String htmlContent = "<html><head><title>Aggregated Content and Spell Check</title></head><body>";
+        
         for (Element e : elements) {
             Element date = e.getElementsByClass("news--item-date").first();
             Element title = e.getElementsByClass("news--item-title").first();
             Element desc = e.getElementsByClass("news--item-desc").first();
             if (Objects.isNull(title) || Objects.isNull(desc))
                 continue;
-            if (Objects.isNull(date))
-                System.out.printf("%s %s%n", title.html(), desc.html());
+            if (Objects.isNull(date)){
+                htmlContent +="<div>" + title.html() + "</div>" + desc.html();
+            }
+                //System.out.printf("%s %s%n", title.html(), desc.html());
             else
-                System.out.printf("%s %s %s%n", date.html(), title.html(), desc.html());
+                htmlContent +="<div>" + date.html() + "</div>" + "<div>" + title.html() + "</div>"  + "<div>" + desc.html() + "</div>";
+                //System.out.printf("%s %s %s%n", date.html(), title.html(), desc.html());
         }
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter("src/aggregatedContent.html"));
+        writer.write(htmlContent);
+        writer.close();
 
         
     }
