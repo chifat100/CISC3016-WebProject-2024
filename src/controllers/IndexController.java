@@ -20,8 +20,34 @@ public class IndexController extends Controller {
     private static final String Site3 = "https://www.modaily.cn/amucsite/web/index.html#/home";
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3";
 
-    private void fetchDictionary(String word) {
-        //"https://api.dictionaryapi.dev/api/v2/entries/en/hello";
+    private void fetchDictionary(IndexData data, String word) throws IOException {
+        word = word.trim();
+        data.word = word;
+        Document doc = Jsoup.connect("https://dictionary.cambridge.org/us/dictionary/english/" + word).userAgent(USER_AGENT).get();
+        Element title = doc.getElementsByClass("di-title").first();
+        if (Objects.isNull(title)) {
+            data.doesWordExists = false;
+            return;
+        }
+        data.doesWordExists = true;
+        Element defBlock = doc.getElementsByClass("def-block").first();
+        if (Objects.isNull(defBlock))
+            return;
+        Element def = defBlock.getElementsByClass("def").first();
+        if (Objects.isNull(def))
+            return;
+        data.wordDesc = def.text();
+//        String str = Fetch.getString(URI.create("https://api.dictionaryapi.dev/api/v2/entries/en/hello"));
+//        JSONArray array = new JSONArray(str);
+//        if (array.isEmpty()) {
+//            data.doesWordExists = false;
+//            return;
+//        }
+//        JSONObject obj = array.getJSONObject(0);
+//        if (!obj.has("word")) {
+//            data.doesWordExists = false;
+//            return;
+//        }
     }
 
     @Action("/")
@@ -40,12 +66,14 @@ public class IndexController extends Controller {
             if (Objects.equals(date.text(), "") || Objects.equals(title.text(), "") || Objects.equals(desc.text(), ""))
                 continue;
 
-            data.titles.add(title.html());
-            data.dates.add(date.html());
-            data.descs.add(desc.html());
-            if (data.titles.size() >= 8)
+            data.govTitles.add(title.html());
+            data.govDates.add(date.html());
+            data.govDescs.add(desc.html());
+            if (data.govTitles.size() >= 8)
                 break;
         }
+
+        fetchDictionary(data, word);
 
 //        htmlContent += "<audio controls><source src='sound.wav' type='audio/mpeg'>Your browser does not support the audio element.</audio>";
 //        htmlContent += "<img src='image.jpeg' alt=' '>";

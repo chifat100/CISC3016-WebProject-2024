@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IndexData {
-    public List<String> titles = new ArrayList<>();
-    public List<String> descs = new ArrayList<>();
-    public List<String> dates = new ArrayList<>();
+    public List<String> govTitles = new ArrayList<>();
+    public List<String> govDescs = new ArrayList<>();
+    public List<String> govDates = new ArrayList<>();
+
+    public String word;
+    public boolean doesWordExists;
+    public String wordDesc;
 }

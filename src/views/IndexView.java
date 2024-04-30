@@ -4,6 +4,8 @@ import httpserver.BaseView;
 import httpserver.StructureBuilder;
 import httpserver.StyleBuilder;
 
+import java.util.Objects;
+
 public class IndexView extends BaseView<IndexData> {
     public IndexView(IndexData data) {
         super(data);
@@ -24,14 +26,35 @@ public class IndexView extends BaseView<IndexData> {
         builder.main(() -> {
             builder.h1(() -> builder.text("Macau Government News"));
             builder.div("news", () -> {
-                for (int i = 0; i < data.titles.size(); i++) {
+                for (int i = 0; i < data.govTitles.size(); i++) {
                     final int idx = i;
                     builder.div("card", () -> {
-                        builder.h4(() -> builder.text(data.dates.get(idx)));
-                        builder.h2(() -> builder.text(data.titles.get(idx)));
-                        builder.p(() -> builder.text(data.descs.get(idx)));
+                        builder.h4(() -> builder.text(data.govDates.get(idx)));
+                        builder.h2(() -> builder.text(data.govTitles.get(idx)));
+                        builder.p(() -> builder.text(data.govDescs.get(idx)));
                     });
                 }
+            });
+
+            builder.h1(() -> builder.text("Dictionary"));
+            builder.div("dict", () -> {
+                builder.form(attr().method("get").action("/"), () -> {
+                    builder.label(attr().for_("word"), () -> {
+                        builder.text("Enter Word");
+                    });
+                    builder.input(attr().id("word").name("word").value(data.word), () -> {
+                    });
+                });
+                if (Objects.isNull(data.word))
+                    return;
+                builder.div("word-content", () -> {
+                    if (!data.doesWordExists) {
+                        builder.p("error", () -> builder.text("The word does not exist."));
+                        return;
+                    }
+                    builder.h2(() -> builder.text("Meaning"));
+                    builder.p(() -> builder.text(data.wordDesc));
+                });
             });
         });
         builder.div("space", () -> {
@@ -55,6 +78,28 @@ public class IndexView extends BaseView<IndexData> {
         });
         builder.select("a:hover", attr -> {
             attr.transform("scale(1.05)");
+        });
+        builder.select("form", attr -> {
+            attr.display("flex");
+            attr.font_size("24px");
+            attr.align_items("center");
+            attr.gap("1rem");
+            attr.flex_direction("column");
+        });
+        builder.select("label", attr -> {
+            attr.display("block");
+        });
+        builder.select("input", attr -> {
+            attr.display("block");
+            attr.outline("none");
+            attr.box_shadow("0px 2px 10px rgba(0,0,0,0.25)");
+            attr.border("none");
+            attr.border_radius("5px");
+            attr.padding("0.5rem 1rem");
+//            attr.border("1px solid black");
+        });
+        builder.select(".error", attr -> {
+            attr.color("red");
         });
 
         builder.select("body", attr -> {
@@ -82,12 +127,24 @@ public class IndexView extends BaseView<IndexData> {
         builder.select(".news", attr -> {
             attr.display("grid");
             attr.grid_template_columns("1fr 1fr 1fr 1fr");
+            attr.gap("0.5rem");
         });
         builder.select(".news h2", attr -> {
             attr.height("200px");
 //            attr.overflow("hidden");
         });
-        builder.select(".space", attr -> attr.flex("1"));
+        builder.select(".word-content", attr -> {
+            attr.max_width("600px");
+            attr.margin("0 auto");
+            attr.margin_top("2rem");
+            attr.display("flex");
+            attr.flex_direction("column");
+            attr.align_items("center");
+        });
+        builder.select(".space", attr -> {
+            attr.min_height("5rem");
+            attr.flex("1");
+        });
 
         builder.select("footer", attr -> {
             attr.padding("1rem 0");
