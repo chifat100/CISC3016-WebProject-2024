@@ -1,4 +1,10 @@
 import controllers.IndexController;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,6 +23,24 @@ public class Web {
     private static final String Site3 = "https://www.modaily.cn/amucsite/web/index.html#/home";
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3";
 
+    private List<String> comments = Arrays.asList(
+        "Interesting content!",
+        "This is relevant to my interests.",
+        "I've learned something new today.",
+        "Great read, would recommend.",
+        "This content is top-notch."
+    );
+
+
+
+    private Random random = new Random();
+
+    private String generateComment() {
+        // Pick a random comment from the list
+        int index = random.nextInt(comments.size());
+        return comments.get(index);
+    }
+
     public static void main(String[] args) throws Exception {
         WebConfig.port = 5100;
         HTTPApplication app = new HTTPApplication();
@@ -32,8 +56,11 @@ public class Web {
         Elements elements2 = doc2.getElementsByClass("con");
         Elements elements3 = doc3.getElementsByClass("conWidth mianConLeft");
 
+
+    public void createCombinedWebPage() {
         String htmlContent = "<html><head><title>Aggregated Content and Spell Check</title></head><body>";
 
+        
         for (Element e : elements) {
             Element date = e.getElementsByClass("news--item-date").first();
             Element title = e.getElementsByClass("news--item-title").first();
@@ -76,8 +103,23 @@ public class Web {
         htmlContent += "<script>function enlargeImage(img) { img.style.transform = 'scale(1.5)'; img.style.transition = 'transform 0.25s ease'; } document.querySelectorAll('img').forEach(img => img.addEventListener('click', () => enlargeImage(img)));</script>";
         htmlContent += "</body></html>";
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter("src/aggregatedContent.html"));
-        writer.write(htmlContent);
-        writer.close();
+            BufferedWriter writer = new BufferedWriter(new FileWriter("src/aggregatedContent.html"));
+            writer.write(htmlContent);
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        WebConfig.port = 5100;
+        HTTPApplication app = new HTTPApplication();
+        app.router().registerController(IndexController.class);
+        app.run();
+        Web web = new Web();
+        web.fetch();
+//        web.createCombinedWebPage();
+//        System.out.println("Web page generated successfully.");
     }
 }
