@@ -1,17 +1,18 @@
 package controllers;
 
-import httpserver.Action;
-import httpserver.Controller;
-import httpserver.FromRoute;
+import java.io.IOException;
+import java.util.Objects;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import httpserver.Action;
+import httpserver.Controller;
+import httpserver.FromRoute;
 import views.IndexData;
 import views.IndexView;
-
-import java.io.IOException;
-import java.util.Objects;
 
 
 public class IndexController extends Controller {
@@ -30,6 +31,8 @@ public class IndexController extends Controller {
 
         Document doc1 = Jsoup.connect(Site1).userAgent(USER_AGENT).get();
         Elements elements = doc1.getElementsByClass("news--item-body");
+        Elements elements2 = doc2.getElementsByClass("con");
+        Elements elements3 = doc3.getElementsByClass("conWidth mianConLeft");
 
         for (Element e : elements) {
             Element date = e.getElementsByClass("news--item-date").first();
@@ -45,6 +48,18 @@ public class IndexController extends Controller {
             data.descs.add(desc.html());
             if (data.titles.size() >= 8)
                 break;
+        }
+
+        for (Element e : elements3) {
+            Element title = e.getElementsByClass("ng-scrop").first();
+            Element text = e.getElementsByClass("home-text").getFirst();
+            data.titles.add(title.html());
+            data.descs.add(text.html());         
+        }
+
+        for (Element e : elements2){
+            Elements last = e.getElementsByClass("last");
+            data.descs.add(last.html());
         }
 
 //        htmlContent += "<audio controls><source src='sound.wav' type='audio/mpeg'>Your browser does not support the audio element.</audio>";
