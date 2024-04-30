@@ -1,4 +1,4 @@
-package toedy.html_server;
+package httpserver;
 
 public class WebConfig {
     /**

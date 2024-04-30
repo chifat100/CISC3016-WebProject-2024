@@ -1,4 +1,4 @@
-package toedy.html_server;
+package httpserver;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;

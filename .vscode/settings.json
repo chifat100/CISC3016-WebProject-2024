@@ -1,26 +1,9 @@
 {
-    "java.project.sourcePaths": ["src"],
-    "java.project.outputPath": "bin",
-<<<<<<< Updated upstream
-    "java.project.referencedLibraries": {
-        "include": [
-            "lib/**/*.jar",
-            "c:\\Users\\calvi\\Downloads\\servlet.jar\\servlet.jar"
-        ],
-        "exclude": [
-            "c:\\Users\\calvi\\Downloads\\jsoup-1.17.2.jar"
-        ]
-    }
-=======
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar",
-        "c:\\Users\\calvi\\Downloads\\jsoup-1.17.2.jar",
-        "jsoup-1.17.2.jar",
-        "jsoup-1.17.2-javadoc.jar",
-        "jsoup-1.17.2-sources.jar",
-        "/Users/mac/Desktop/jsoup-1.17.2-sources.jar",
-        "/Users/mac/Desktop/jsoup-1.17.2.jar",
-        "/Users/mac/Desktop/jsoup-1.17.2-javadoc.jar"
-    ]
->>>>>>> Stashed changes
+  "java.project.sourcePaths": [
+    "src"
+  ],
+  "java.project.outputPath": "bin",
+  "java.project.referencedLibraries": [
+    "lib/**/*.jar"
+  ]
 }

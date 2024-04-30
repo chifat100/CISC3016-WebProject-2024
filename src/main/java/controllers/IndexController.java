@@ -1,16 +1,15 @@
 package controllers;
 
+import httpserver.Action;
+import httpserver.Controller;
+import httpserver.FromRoute;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import toedy.html_server.Action;
-import toedy.html_server.Controller;
 import views.IndexData;
 import views.IndexView;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -21,8 +20,12 @@ public class IndexController extends Controller {
     private static final String Site3 = "https://www.modaily.cn/amucsite/web/index.html#/home";
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3";
 
+    private void fetchDictionary(String word) {
+        //"https://api.dictionaryapi.dev/api/v2/entries/en/hello";
+    }
+
     @Action("/")
-    public Object index() throws IOException {
+    public Object index(@FromRoute("word") String word) throws IOException {
         IndexData data = new IndexData();
 
         Document doc1 = Jsoup.connect(Site1).userAgent(USER_AGENT).get();
@@ -40,6 +43,8 @@ public class IndexController extends Controller {
             data.titles.add(title.html());
             data.dates.add(date.html());
             data.descs.add(desc.html());
+            if (data.titles.size() >= 8)
+                break;
         }
 
 //        htmlContent += "<audio controls><source src='sound.wav' type='audio/mpeg'>Your browser does not support the audio element.</audio>";

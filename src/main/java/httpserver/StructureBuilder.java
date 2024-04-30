@@ -1,4 +1,4 @@
-package toedy.html_server;
+package httpserver;
 
 public class StructureBuilder {
     private final boolean mini;
@@ -47,10 +47,10 @@ public class StructureBuilder {
         else sb.append(">\r\n");
     }
 
-    public void text(String format, Object... args) {
+    public void text(String text) {
         if (!mini)
             sb.append("  ".repeat(depth));
-        sb.append(String.format(format, args));
+        sb.append(text);
         if (!mini)
             sb.append("\r\n");
     }

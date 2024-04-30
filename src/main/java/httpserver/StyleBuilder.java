@@ -1,4 +1,4 @@
-package toedy.html_server;
+package httpserver;
 
 public class StyleBuilder {
     private final boolean mini;
@@ -2517,6 +2517,10 @@ public class StyleBuilder {
          */
         public void z_index(String value) {
             add("z-index", value);
+        }
+
+        public void overflow(String value) {
+            add("overflow", value);
         }
     }
 }

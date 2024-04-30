@@ -1,4 +1,4 @@
-package toedy.html_server;
+package httpserver;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -10,18 +10,18 @@ import java.util.Objects;
 
 public class HTTPApplication {
     private final Router router;
-//    toedy.html_server.DependencyInjector dependencyInjector;
+//    main.java.httpserver.DependencyInjector dependencyInjector;
 
-//    toedy.html_server.WebConfig config;
+//    main.java.httpserver.WebConfig config;
 
     public HTTPApplication() {
-//        dependencyInjector = new toedy.html_server.DependencyInjector();
-//        router = dependencyInjector.create(toedy.html_server.Router.class);
+//        dependencyInjector = new main.java.httpserver.DependencyInjector();
+//        router = dependencyInjector.create(main.java.httpserver.Router.class);
         router = new Router();
-//        config = new toedy.html_server.WebConfig();
+//        config = new main.java.httpserver.WebConfig();
     }
 
-//    public void config(toedy.html_server.WebConfig config) {
+//    public void config(main.java.httpserver.WebConfig config) {
 //        this.config = config;
 //    }
 

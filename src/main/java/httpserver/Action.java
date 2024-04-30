@@ -1,4 +1,4 @@
-package toedy.html_server;
+package httpserver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

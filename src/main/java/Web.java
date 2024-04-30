@@ -1,10 +1,10 @@
 import controllers.IndexController;
+import httpserver.HTTPApplication;
+import httpserver.WebConfig;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import toedy.html_server.HTTPApplication;
-import toedy.html_server.WebConfig;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -32,6 +32,8 @@ public class Web {
     private Random random = new Random();
 
     public static void main(String[] args) throws Exception {
+//        Web web = new Web();
+//        web.fetch();
         WebConfig.port = 5100;
         HTTPApplication app = new HTTPApplication();
         app.router().registerController(IndexController.class);

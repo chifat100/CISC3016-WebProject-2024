@@ -1,4 +1,4 @@
-package toedy.html_server.parser;
+package httpserver.parser;
 
 import java.io.IOException;
 import java.net.URI;
@@ -7,11 +7,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
-public class HTMLElement {
-    private String html;
-
-    public HTMLElement(URI uri) {
-        HttpResponse<String> res;
+public class Fetch {
+    public static String getString(URI uri) {
         try (HttpClient client = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
                 .followRedirects(HttpClient.Redirect.NORMAL)
@@ -23,27 +20,10 @@ public class HTMLElement {
                     .header("Content-Type", "application/json")
                     .GET()
                     .build();
-            res = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> res = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return res.body();
         } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
-        html = res.body();
     }
-
-    public HTMLElement(String html) {
-        this.html = html;
-    }
-
-//    public List<HTMLElement> getsByClassName(String className) {
-//        String regex = "<[^>]+class\\s*=\\s*\"[^\"]*\\b" + className + "\\b[^>]*>"; //(.*?)<\\/[^>]+>";
-//        Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
-//
-//        Matcher matcher = pattern.matcher(html);
-//
-//        if (matcher.find()) {
-//            return matcher.group(1);
-//        }
-//
-//        return null;
-//    }
 }

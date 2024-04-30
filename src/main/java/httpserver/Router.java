@@ -1,4 +1,4 @@
-package toedy.html_server;
+package httpserver;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Router {
-    //    private final toedy.html_server.DependencyInjector dependencyInjector;
+    //    private final main.java.httpserver.DependencyInjector dependencyInjector;
     private final ArrayList<Route> routes = new ArrayList<>();
 
-//    public toedy.html_server.Router(toedy.html_server.DependencyInjector dependencyInjector) {
+//    public main.java.httpserver.Router(main.java.httpserver.DependencyInjector dependencyInjector) {
 //        this.dependencyInjector = dependencyInjector;
 //    }
 
@@ -164,7 +164,7 @@ public class Router {
                 if (Objects.equals(name, requiredParameters[j].name()))
                     break;
             if (j == requiredParameters.length) {
-                throw new RouteParsingException("Cannot find " + name + " as a parameter of " + method.getName() + " (missing @toedy.html_server.FromRoute?)");
+                throw new RouteParsingException("Cannot find " + name + " as a parameter of " + method.getName() + " (missing @main.java.httpserver.FromRoute?)");
             }
             path[i - 1] = new ParamSegment(name, requiredParameters[j].type(), j);
         }
