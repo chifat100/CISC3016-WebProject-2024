@@ -115,7 +115,7 @@ public class IndexView extends BaseView<IndexData> {
         builder.div("space", () -> {
         });
         builder.footer(() -> {
-            builder.text("This site is made by Leong Chi Tou and Chi Fat");
+            builder.text("This site is made by SmolIndieGame and chifat100");
         });
     }
 
