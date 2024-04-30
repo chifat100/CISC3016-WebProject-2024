@@ -33,7 +33,7 @@ public class HTTPApplication {
 //        dependencyInjector.addSingleton(config);
         router.build();
 
-        try (ServerSocket serverSocket = new ServerSocket(8080)) {
+        try (ServerSocket serverSocket = new ServerSocket(WebConfig.port)) {
             while (true) {
                 Socket client = serverSocket.accept();
                 Thread handler = new Thread(() -> handleClient(client));

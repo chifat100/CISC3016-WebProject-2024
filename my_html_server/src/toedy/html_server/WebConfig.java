@@ -17,4 +17,9 @@ public class WebConfig {
      * http://host/my/pub/path point to the public folder
      */
     public static String publicServePath = "/";
+
+    /**
+     * Listen at port
+     */
+    public static int port = 8080;
 }

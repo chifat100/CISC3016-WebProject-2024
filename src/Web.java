@@ -3,10 +3,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Objects;
 
+import controllers.IndexController;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import toedy.html_server.HTTPApplication;
+import toedy.html_server.WebConfig;
 
 public class Web {
     private static final String Site1 = "https://www.gov.mo/zh-hant/news/?display_mode=grid";
@@ -70,6 +73,10 @@ public class Web {
     }
 
     public static void main(String[] args) throws Exception {
+        WebConfig.port = 5100;
+        HTTPApplication app = new HTTPApplication();
+        app.router().registerController(IndexController.class);
+        app.run();
         Web web = new Web();
         web.fetch();
 //        web.createCombinedWebPage();

@@ -23,42 +23,42 @@ public class IndexController extends Controller {
 
     @Action("/")
     public Object index() throws IOException {
+        IndexData data = new IndexData();
+
         Document doc1 = Jsoup.connect(Site1).userAgent(USER_AGENT).get();
         Elements elements = doc1.getElementsByClass("news--item-body");
-        String htmlContent = "<html><head><title>Aggregated Content and Spell Check</title></head><body>";
 
         for (Element e : elements) {
             Element date = e.getElementsByClass("news--item-date").first();
             Element title = e.getElementsByClass("news--item-title").first();
             Element desc = e.getElementsByClass("news--item-desc").first();
-            if (Objects.isNull(title) || Objects.isNull(desc))
+            if (Objects.isNull(date) || Objects.isNull(title) || Objects.isNull(desc))
                 continue;
-            if (Objects.isNull(date)){
-                htmlContent +="<div>" + title.html() + "</div>" + desc.html();
-            }
-            //System.out.printf("%s %s%n", title.html(), desc.html());
-            else
-                htmlContent +="<div>" + date.html() + "</div>" + "<div>" + title.html() + "</div>"  + "<div>" + desc.html() + "</div>";
-            //System.out.printf("%s %s %s%n", date.html(), title.html(), desc.html());
+            if (Objects.equals(date.text(), "") || Objects.equals(title.text(), "") || Objects.equals(desc.text(), ""))
+                continue;
+
+            data.titles.add(title.html());
+            data.dates.add(date.html());
+            data.descs.add(desc.html());
         }
 
-        htmlContent += "<audio controls><source src='sound.wav' type='audio/mpeg'>Your browser does not support the audio element.</audio>";
-        htmlContent += "<img src='image.jpeg' alt=' '>";
-        htmlContent += "<script>function enlargeImage(img) { img.style.transform = 'scale(1.5)'; img.style.transition = 'transform 0.25s ease'; } document.querySelectorAll('img').forEach(img => img.addEventListener('click', () => enlargeImage(img)));</script>";
-        htmlContent += "</body></html>";
+//        htmlContent += "<audio controls><source src='sound.wav' type='audio/mpeg'>Your browser does not support the audio element.</audio>";
+//        htmlContent += "<img src='image.jpeg' alt=' '>";
+//        htmlContent += "<script>function enlargeImage(img) { img.style.transform = 'scale(1.5)'; img.style.transition = 'transform 0.25s ease'; } document.querySelectorAll('img').forEach(img => img.addEventListener('click', () => enlargeImage(img)));</script>";
+//        htmlContent += "</body></html>";
+//
+//        htmlContent += "<h2>Spell Check</h2>";
+//        htmlContent += "<form action='/SpellCheckApp/checkSpelling' method='get'>";
+//        htmlContent += "<label for='word'>Enter a word to check its spelling:</label>";
+//        htmlContent += "<input type='text' id='word' name='word'><br>";
+//        htmlContent += "<input type='submit' value='Check Spelling'>";
+//        htmlContent += "</form>";
+//
+//
+//        BufferedWriter writer = new BufferedWriter(new FileWriter("src/aggregatedContent.html"));
+//        writer.write(htmlContent);
+//        writer.close();
 
-        htmlContent += "<h2>Spell Check</h2>";
-        htmlContent += "<form action='/SpellCheckApp/checkSpelling' method='get'>";
-        htmlContent += "<label for='word'>Enter a word to check its spelling:</label>";
-        htmlContent += "<input type='text' id='word' name='word'><br>";
-        htmlContent += "<input type='submit' value='Check Spelling'>";
-        htmlContent += "</form>";
-
-
-        BufferedWriter writer = new BufferedWriter(new FileWriter("src/aggregatedContent.html"));
-        writer.write(htmlContent);
-        writer.close();
-
-        return new IndexView(new IndexData());
+        return new IndexView(data);
     }
 }

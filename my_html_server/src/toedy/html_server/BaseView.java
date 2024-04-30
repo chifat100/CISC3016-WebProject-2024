@@ -24,7 +24,13 @@ public abstract class BaseView<T> {
         structureBuilder.html(() -> {
             structureBuilder.head(() -> {
                 structureBuilder.title(() -> structureBuilder.text(getTitle()));
+                structureBuilder.meta(attr().charset("UTF-8"), () -> {});
+                structureBuilder.meta(attr().http_equiv("X-UA-Compatible").content("IE=edge"), () -> {});
+                structureBuilder.meta(attr().name("viewport").content("width=device-width, initial-scale=1.0"), () -> {});
             });
+                    //<meta charset="UTF-8">
+            //  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            //      <meta name="viewport" content="width=device-width, initial-scale=1.0">
             structureBuilder.body(() -> {
                 buildStructure(structureBuilder);
                 structureBuilder.style(() -> {
